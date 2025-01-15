@@ -5,7 +5,7 @@ description = "BoaBoard is a modern, Python-powered attendance dashboard designe
 authors = [
     {name = "Julius Koenig", email = "info@bastelquartier.de"},
 ]
-dependencies = ["fastapi>=0.115.6", "mongoengine>=0.29.1", "uvicorn>=0.34.0", "typer>=0.15.1", "wiederverwendbar[full]>=0.6.3", "pydantic-settings>=2.7.1"]
+dependencies = ["fastapi>=0.115.6", "mongoengine>=0.29.1", "uvicorn>=0.34.0", "typer>=0.15.1", "wiederverwendbar[full]>=0.6.3", "pydantic-settings>=2.7.1", "rich>=13.9.4"]
 requires-python = ">=3.12"
 readme = "README.md"
 license = {text = "GPL-3.0"}
