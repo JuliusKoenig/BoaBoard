@@ -39,11 +39,11 @@ def backup_database(dump_path: Path = typer.Argument(..., help="Path to save the
 
     from rich.prompt import Prompt
 
-    from boaboard.core.logger import Logger
-    from boaboard.core.db import Db
+    from boaboard.core.logger import logger
+    from boaboard.core.db import db
 
     # initiate logging
-    Logger()
+    logger()
 
     # check if dump path is existing
     if dump_path.exists() and not force:
@@ -51,7 +51,7 @@ def backup_database(dump_path: Path = typer.Argument(..., help="Path to save the
             return
 
     # dump database
-    Db().dump(path=dump_path, overwrite=True)
+    db().dump(path=dump_path, overwrite=True)
 
     console.print(f"[green]Database backup finished successfully.[/green]")
 
@@ -69,11 +69,11 @@ def restore_database(dump_path: Path = typer.Argument(..., help="Path to the bac
 
     console.print(f"Restore database from '{dump_path}'.")
 
-    from boaboard.core.logger import Logger
-    from boaboard.core.db import Db
+    from boaboard.core.logger import logger
+    from boaboard.core.db import db
 
     # initiate logging
-    Logger()
+    logger()
 
     # check if dump path is existing
     if not dump_path.exists():
@@ -82,7 +82,7 @@ def restore_database(dump_path: Path = typer.Argument(..., help="Path to the bac
 
     try:
         # restore database
-        Db().restore(path=dump_path, overwrite=force)
+        db().restore(path=dump_path, overwrite=force)
     except FileExistsError as e:
         console.print(f"[red]Could not restore database. {e}[/red]")
         return
@@ -106,11 +106,26 @@ def serve() -> None:
     console.print(ASCII_LOGO)
     console.print(f"Start {__title__} server v{__version__} ...")
 
-    from boaboard.core.logger import Logger
+    from boaboard.core.logger import logger
     from boaboard.core.server import Server
 
     # initiate logging
-    Logger()
+    logger()
 
     # start server
     Server()
+
+
+@cli_app.command(name="shell", help="Start the BoaBoard shell.")
+def shell() -> None:
+    """
+    Start the BoaBoard shell.
+
+    :return: None
+    """
+
+    console.print(f"Start {__title__} shell ...")
+
+    from boaboard.cli.shell import shell
+
+    shell()

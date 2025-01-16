@@ -1,10 +1,10 @@
 from fastapi import FastAPI
 
 from boaboard import __title__, __description__, __version__, __author__, __author_email__, __license__
-from boaboard.core.settings import Settings
+from boaboard.core.settings import settings
 
 api_app = FastAPI(
-    debug=Settings().app_debug,
+    debug=settings().app_debug,
     title=__title__,
     summary=f"{__title__} API",
     description=__description__,
