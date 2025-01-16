@@ -22,7 +22,7 @@ def shell():
     from boaboard.core.environment import environment
     from boaboard.core.settings import settings
     from boaboard.core.logger import logger
-    from boaboard.core.db import db
+    from boaboard.core.db import db, EmployeeDocument, LocationDocument, AttendanceDocument
 
     # initiate logging
     logger()
@@ -35,6 +35,9 @@ def shell():
         "environment": environment(),
         "settings": settings(),
         "db": db(),
+        "employee": EmployeeDocument,
+        "location": LocationDocument,
+        "attendance": AttendanceDocument,
         "logger": logger()
     }
 

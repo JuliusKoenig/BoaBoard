@@ -11,5 +11,5 @@ def logger() -> LoggerSingleton:
     except RuntimeError:
         return LoggerSingleton(name=__module_name__,
                                settings=settings(),
-                               ignored_loggers_like=["pymongo", "asyncio", "parso"],
+                               ignored_loggers_like=["pymongo", "asyncio", "parso", "engineio", "socketio"],
                                init=True)
