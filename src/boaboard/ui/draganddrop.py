@@ -1,16 +1,18 @@
-from dataclasses import dataclass
+from __future__ import annotations
+
 from typing import Callable, Optional, Protocol
 
-from nicegui import APIRouter, ui
-
-dashboard_router = APIRouter(prefix="/dashboard")
+from nicegui import ui
 
 
 class Item(Protocol):
     title: str
 
 
-class Column(ui.column):
+dragged: Optional[card] = None
+
+
+class column(ui.column):
 
     def __init__(self, name: str, on_drop: Optional[Callable[[Item, str], None]] = None) -> None:
         super().__init__()
@@ -33,12 +35,12 @@ class Column(ui.column):
         self.unhighlight()
         dragged.parent_slot.parent.remove(dragged)
         with self:
-            Card(dragged.item)
+            card(dragged.item)
         self.on_drop(dragged.item, self.name)
         dragged = None
 
 
-class Card(ui.card):
+class card(ui.card):
 
     def __init__(self, item: Item) -> None:
         super().__init__()
@@ -50,31 +52,3 @@ class Card(ui.card):
     def handle_dragstart(self) -> None:
         global dragged  # pylint: disable=global-statement # noqa: PLW0603
         dragged = self
-
-
-dragged: Optional[Card] = None
-
-
-@dataclass
-class ToDo:
-    title: str
-
-
-def handle_drop(todo: ToDo, location: str):
-    ui.notify(f'"{todo.title}" is now in {location}')
-
-
-@dashboard_router.page("/")
-def index_page() -> None:
-    ui.markdown("# Dashboard")
-    with ui.row():
-        with Column('Next', on_drop=handle_drop):
-            Card(ToDo('Simplify Layouting'))
-            Card(ToDo('Provide Deployment'))
-        with Column('Doing', on_drop=handle_drop):
-            Card(ToDo('Improve Documentation'))
-        with Column('Done', on_drop=handle_drop):
-            Card(ToDo('Invent NiceGUI'))
-            Card(ToDo('Test in own Projects'))
-            Card(ToDo('Publish as Open Source'))
-            Card(ToDo('Release Native-Mode'))
